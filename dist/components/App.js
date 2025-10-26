@@ -6,22 +6,63 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 const material_1 = require("@mui/material");
-const Menu_1 = __importDefault(require("@mui/icons-material/Menu"));
-const Dashboard_1 = __importDefault(require("@mui/icons-material/Dashboard"));
-const HealthAndSafety_1 = __importDefault(require("@mui/icons-material/HealthAndSafety"));
-const LocalHospital_1 = __importDefault(require("@mui/icons-material/LocalHospital"));
-const LocalCafe_1 = __importDefault(require("@mui/icons-material/LocalCafe"));
-const Bedtime_1 = __importDefault(require("@mui/icons-material/Bedtime"));
+const Dashboard_1 = __importDefault(require("./dashboard/Dashboard"));
+const HealthInputForm_1 = __importDefault(require("./dashboard/HealthInputForm"));
+const AIRecommendations_1 = __importDefault(require("./dashboard/AIRecommendations"));
+const CaffeineTracker_1 = __importDefault(require("./caffeine/CaffeineTracker"));
+const SleepTracker_1 = __importDefault(require("./sleep/SleepTracker"));
+const NavBar_1 = __importDefault(require("./NavBar"));
 const App = () => {
-    const [isDrawerOpen, setIsDrawerOpen] = (0, react_1.useState)(false);
     const [activeComponent, setActiveComponent] = (0, react_1.useState)('dashboard');
+    const [darkMode, setDarkMode] = (0, react_1.useState)(() => {
+        const saved = localStorage.getItem('darkMode');
+        // default to dark theme if nothing saved
+        return saved ? JSON.parse(saved) : true;
+    });
+    (0, react_1.useEffect)(() => {
+        localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    }, [darkMode]);
+    const theme = (0, react_1.useMemo)(() => (0, material_1.createTheme)({
+        palette: {
+            mode: darkMode ? 'dark' : 'light',
+            // Use yellow as the accent (primary) color
+            primary: {
+                main: '#FFD600', // bright yellow accent
+                contrastText: '#000000',
+            },
+            // keep secondary subtle
+            secondary: {
+                main: '#FFC107',
+            },
+        },
+        components: {
+            MuiAppBar: {
+                defaultProps: {
+                    color: 'primary',
+                },
+            },
+        },
+    }), [darkMode]);
     const handleHealthDataSubmit = (data) => {
         console.log('Health data submitted:', data);
         // Here you would typically save this data to your database
     };
     const renderContent = () => {
-        return ((0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { p: 4, textAlign: 'center' }, children: [(0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h3", gutterBottom: true, children: "Welcome to Health AI Assistant" }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h5", color: "text.secondary", children: "Your personal health companion" })] }));
+        switch (activeComponent) {
+            case 'dashboard':
+                return (0, jsx_runtime_1.jsx)(Dashboard_1.default, {});
+            case 'input':
+                return (0, jsx_runtime_1.jsx)(HealthInputForm_1.default, { onSubmit: handleHealthDataSubmit });
+            case 'ai':
+                return (0, jsx_runtime_1.jsx)(AIRecommendations_1.default, {});
+            case 'caffeine':
+                return (0, jsx_runtime_1.jsx)(CaffeineTracker_1.default, {});
+            case 'sleep':
+                return (0, jsx_runtime_1.jsx)(SleepTracker_1.default, {});
+            default:
+                return ((0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { p: 4, textAlign: 'center' }, children: [(0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h3", gutterBottom: true, children: "Welcome to Health AI Assistant" }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h5", color: "text.secondary", children: "Your personal health companion" })] }));
+        }
     };
-    return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(material_1.AppBar, { position: "static", children: (0, jsx_runtime_1.jsxs)(material_1.Toolbar, { children: [(0, jsx_runtime_1.jsx)(material_1.IconButton, { edge: "start", color: "inherit", onClick: () => setIsDrawerOpen(true), sx: { mr: 2 }, children: (0, jsx_runtime_1.jsx)(Menu_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h6", component: "div", sx: { flexGrow: 1 }, children: "Personal Health AI Assistant" })] }) }), (0, jsx_runtime_1.jsx)(material_1.Drawer, { anchor: "left", open: isDrawerOpen, onClose: () => setIsDrawerOpen(false), children: (0, jsx_runtime_1.jsxs)(material_1.List, { sx: { width: 250 }, children: [(0, jsx_runtime_1.jsxs)(material_1.ListItem, { button: true, onClick: () => { setActiveComponent('dashboard'); setIsDrawerOpen(false); }, children: [(0, jsx_runtime_1.jsx)(material_1.ListItemIcon, { children: (0, jsx_runtime_1.jsx)(Dashboard_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.ListItemText, { primary: "Dashboard" })] }), (0, jsx_runtime_1.jsxs)(material_1.ListItem, { button: true, onClick: () => { setActiveComponent('input'); setIsDrawerOpen(false); }, children: [(0, jsx_runtime_1.jsx)(material_1.ListItemIcon, { children: (0, jsx_runtime_1.jsx)(LocalHospital_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.ListItemText, { primary: "Input Health Data" })] }), (0, jsx_runtime_1.jsxs)(material_1.ListItem, { button: true, onClick: () => { setActiveComponent('ai'); setIsDrawerOpen(false); }, children: [(0, jsx_runtime_1.jsx)(material_1.ListItemIcon, { children: (0, jsx_runtime_1.jsx)(HealthAndSafety_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.ListItemText, { primary: "AI Recommendations" })] }), (0, jsx_runtime_1.jsxs)(material_1.ListItem, { button: true, onClick: () => { setActiveComponent('caffeine'); setIsDrawerOpen(false); }, children: [(0, jsx_runtime_1.jsx)(material_1.ListItemIcon, { children: (0, jsx_runtime_1.jsx)(LocalCafe_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.ListItemText, { primary: "Caffeine Tracker" })] }), (0, jsx_runtime_1.jsxs)(material_1.ListItem, { button: true, onClick: () => { setActiveComponent('sleep'); setIsDrawerOpen(false); }, children: [(0, jsx_runtime_1.jsx)(material_1.ListItemIcon, { children: (0, jsx_runtime_1.jsx)(Bedtime_1.default, {}) }), (0, jsx_runtime_1.jsx)(material_1.ListItemText, { primary: "Sleep Tracker" })] })] }) }), (0, jsx_runtime_1.jsx)(material_1.Container, { maxWidth: "lg", sx: { mt: 4 }, children: renderContent() })] }));
+    return ((0, jsx_runtime_1.jsxs)(material_1.ThemeProvider, { theme: theme, children: [(0, jsx_runtime_1.jsx)(material_1.CssBaseline, {}), (0, jsx_runtime_1.jsx)(NavBar_1.default, { value: activeComponent, onChange: (v) => setActiveComponent(v), darkMode: darkMode, toggleDarkMode: () => setDarkMode((d) => !d) }), (0, jsx_runtime_1.jsx)(material_1.Container, { maxWidth: "lg", sx: { mt: 4 }, children: renderContent() })] }));
 };
 exports.default = App;

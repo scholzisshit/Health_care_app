@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Typography, Box, AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import BedtimeIcon from '@mui/icons-material/Bedtime';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Container, Typography, Box, createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 
 import Dashboard from './dashboard/Dashboard';
 import HealthInputForm from './dashboard/HealthInputForm';
 import AIRecommendations from './dashboard/AIRecommendations';
 import CaffeineTracker from './caffeine/CaffeineTracker';
 import SleepTracker from './sleep/SleepTracker';
+import NavBar from './NavBar';
 
 interface HealthData {
   weight: string;
@@ -21,8 +16,42 @@ interface HealthData {
 }
 
 const App: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeComponent, setActiveComponent] = useState<'dashboard' | 'input' | 'ai' | 'caffeine' | 'sleep'>('dashboard');
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('darkMode');
+    // default to dark theme if nothing saved
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? 'dark' : 'light',
+          // Use yellow as the accent (primary) color
+          primary: {
+            main: '#FFD600', // bright yellow accent
+            contrastText: '#000000',
+          },
+          // keep secondary subtle
+          secondary: {
+            main: '#FFC107',
+          },
+        },
+        components: {
+          MuiAppBar: {
+            defaultProps: {
+              color: 'primary',
+            },
+          },
+        },
+      }),
+    [darkMode]
+  );
 
   const handleHealthDataSubmit = (data: HealthData) => {
     console.log('Health data submitted:', data);
@@ -30,79 +59,46 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    return (
-      <Box sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h3" gutterBottom>
-          Welcome to Health AI Assistant
-        </Typography>
-        <Typography variant="h5" color="text.secondary">
-          Your personal health companion
-        </Typography>
-      </Box>
-    );
+    switch (activeComponent) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'input':
+        return <HealthInputForm onSubmit={handleHealthDataSubmit} />;
+      case 'ai':
+        return <AIRecommendations />;
+      case 'caffeine':
+        return <CaffeineTracker />;
+      case 'sleep':
+        return <SleepTracker />;
+      default:
+        return (
+          <Box sx={{ p: 4, textAlign: 'center' }}>
+            <Typography variant="h3" gutterBottom>
+              Welcome to Health AI Assistant
+            </Typography>
+            <Typography variant="h5" color="text.secondary">
+              Your personal health companion
+            </Typography>
+          </Box>
+        );
+    }
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={() => setIsDrawerOpen(true)}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Personal Health AI Assistant
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
 
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      >
-        <List sx={{ width: 250 }}>
-          <ListItem button onClick={() => { setActiveComponent('dashboard'); setIsDrawerOpen(false); }}>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button onClick={() => { setActiveComponent('input'); setIsDrawerOpen(false); }}>
-            <ListItemIcon>
-              <LocalHospitalIcon />
-            </ListItemIcon>
-            <ListItemText primary="Input Health Data" />
-          </ListItem>
-          <ListItem button onClick={() => { setActiveComponent('ai'); setIsDrawerOpen(false); }}>
-            <ListItemIcon>
-              <HealthAndSafetyIcon />
-            </ListItemIcon>
-            <ListItemText primary="AI Recommendations" />
-          </ListItem>
-          <ListItem button onClick={() => { setActiveComponent('caffeine'); setIsDrawerOpen(false); }}>
-            <ListItemIcon>
-              <LocalCafeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Caffeine Tracker" />
-          </ListItem>
-          <ListItem button onClick={() => { setActiveComponent('sleep'); setIsDrawerOpen(false); }}>
-            <ListItemIcon>
-              <BedtimeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Sleep Tracker" />
-          </ListItem>
-        </List>
-      </Drawer>
+      <NavBar
+        value={activeComponent}
+        onChange={(v) => setActiveComponent(v)}
+        darkMode={darkMode}
+        toggleDarkMode={() => setDarkMode((d) => !d)}
+      />
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         {renderContent()}
       </Container>
-    </>
+    </ThemeProvider>
   );
 };
 
