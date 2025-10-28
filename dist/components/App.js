@@ -63,6 +63,6 @@ const App = () => {
                 return ((0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { p: 4, textAlign: 'center' }, children: [(0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h3", gutterBottom: true, children: "Welcome to Health AI Assistant" }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h5", color: "text.secondary", children: "Your personal health companion" })] }));
         }
     };
-    return ((0, jsx_runtime_1.jsxs)(material_1.ThemeProvider, { theme: theme, children: [(0, jsx_runtime_1.jsx)(material_1.CssBaseline, {}), (0, jsx_runtime_1.jsx)(NavBar_1.default, { value: activeComponent, onChange: (v) => setActiveComponent(v), darkMode: darkMode, toggleDarkMode: () => setDarkMode((d) => !d) }), (0, jsx_runtime_1.jsx)(material_1.Container, { maxWidth: "lg", sx: { mt: 4 }, children: renderContent() })] }));
+    return ((0, jsx_runtime_1.jsxs)(material_1.ThemeProvider, { theme: theme, children: [(0, jsx_runtime_1.jsx)(material_1.CssBaseline, {}), (0, jsx_runtime_1.jsx)(NavBar_1.default, { value: activeComponent, onChange: (v) => setActiveComponent(v), darkMode: darkMode, toggleDarkMode: () => setDarkMode((d) => !d) }), (0, jsx_runtime_1.jsx)(material_1.Container, { maxWidth: "lg", sx: { mt: 4 }, children: activeComponent === 'dashboard' ? ((0, jsx_runtime_1.jsx)(Dashboard_1.default, { onNavigate: (r) => setActiveComponent(r) })) : (renderContent()) })] }));
 };
 exports.default = App;

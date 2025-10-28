@@ -1,44 +1,118 @@
-# Personal Health AI Assistant
+# Health AI Assistant
 
-A desktop application built with Electron.js that helps users manage their personal health with AI-powered recommendations.
+A comprehensive desktop application designed to help users track, analyze, and improve their health through intelligent monitoring of various health metrics, with a special focus on sleep patterns and caffeine intake.
 
-## Features
+## Quick Start
 
-- User-friendly interface built with React and Material-UI
-- Local data storage with SQLite
-- AI-powered health recommendations
-- Personal health tracking
-
-## Development Setup
-
-1. Install dependencies:
+### Installation
+1. Clone the repository
+2. Install dependencies:
 ```bash
 npm install
 ```
-
-2. Start the development server:
+3. Start the development server:
 ```bash
 npm run dev
 ```
-
-3. Build the application:
+4. For production build:
 ```bash
 npm run build
-```
-
-4. Start the application:
-```bash
 npm start
 ```
 
-## Technology Stack
+### First Time Setup
+1. Open the application
+2. Navigate to the Dashboard
+3. Set your health goals and preferences
+4. Start tracking your health metrics
 
-- Electron.js
-- React
-- TypeScript
-- Material-UI
-- SQLite
+### Daily Usage Tips
+- Log your sleep data consistently
+- Track caffeine intake throughout the day
+- Review AI recommendations regularly
+- Update goals as needed
+
+## Features
+
+### Dashboard
+- Real-time health metrics display
+  * Daily steps counter
+  * Heart rate monitoring
+  * Sleep duration tracking
+  * Water intake measurement
+- Interactive performance graphs
+- Weekly and monthly trend analysis
+- Quick action buttons for common tasks
+
+### Sleep Tracking System
+#### Sleep Monitoring
+- Daily sleep duration logging
+- Sleep quality rating (1-5 stars)
+- Mood tracking upon waking
+- Notes and observations
+- Automatic sleep cycle analysis
+
+#### Smart Sleep Features
+- AI-powered wake-up time suggestions
+- Sleep cycle optimization
+- Personalized improvement advice
+- Sleep hygiene reminders
+- Sleep score calculation based on:
+  * Duration (40%)
+  * Quality (30%)
+  * Consistency (20%)
+  * Caffeine impact (10%)
+
+### Caffeine Tracking System
+#### Drink Tracking
+- Predefined drinks with caffeine content:
+  * Espresso (64mg)
+  * Brewed Coffee (95mg)
+  * Cold Brew (200mg)
+  * Green Tea (28mg)
+  * Black Tea (47mg)
+  * Energy Drinks (80mg)
+  * Cola (34mg)
+- Custom drink creation
+- Personal recipe storage
+
+#### Analysis Tools
+- Daily intake monitoring
+- Weekly consumption patterns
+- Time-based distribution
+- Limit warnings
+- Detailed drink recipes
+- Sleep-caffeine correlation analysis
+
+### AI-Powered Health Insights
+- Personalized recommendations
+- Sleep optimization suggestions
+- Caffeine intake guidance
+- Lifestyle improvement tips
+- Smart alerts and reminders
+
+### Data & Privacy
+- Local SQLite database
+- Secure data handling
+- No cloud dependency
+- Private health data
+- Data export options
+
+## Technical Stack
+- Electron.js for cross-platform desktop app
+- React + TypeScript for robust UI
+- Material-UI for modern styling
+- SQLite for local data storage
+- Recharts for data visualization
+
+## System Requirements
+- Compatible with Windows/macOS/Linux
+- Minimal system resources
+- Offline functionality
+- Automatic updates
+
+## Important Note
+This application provides health insights and recommendations. It is not a substitute for professional medical advice. Always consult healthcare professionals for medical decisions.
 
 ## License
-
 MIT

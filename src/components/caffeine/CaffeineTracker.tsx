@@ -59,6 +59,15 @@ const CaffeineTracker: React.FC = () => {
     const newTotal = dailyTotal + caffeineAmount;
     setDailyTotal(newTotal);
 
+    // persist the daily total so other components (like SleepTracker) can read it
+    try {
+      localStorage.setItem('dailyCaffeine', String(newTotal));
+      // dispatch a custom event so same-window listeners can update
+      window.dispatchEvent(new CustomEvent('caffeineUpdate', { detail: newTotal }));
+    } catch (err) {
+      // ignore storage errors
+    }
+
     if (newTotal > 400) {
       setError('Warning: You have exceeded the recommended daily caffeine intake of 400mg');
     } else {

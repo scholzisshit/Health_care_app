@@ -57,7 +57,52 @@ const SleepTracker: React.FC = () => {
   const [error, setError] = useState<string>('');
   
   // Sample caffeine data - In a real app, this would come from your CaffeineTracker
-  const [recentCaffeineIntake, setRecentCaffeineIntake] = useState(0);
+  const [recentCaffeineIntake, setRecentCaffeineIntake] = useState<number>(() => {
+    try {
+      const v = localStorage.getItem('dailyCaffeine');
+      return v ? Number(v) : 0;
+    } catch (err) {
+      return 0;
+    }
+  });
+
+  // Listen for updates dispatched by CaffeineTracker when it writes to localStorage
+  useEffect(() => {
+    const handler = (e: Event) => {
+      try {
+        // event may be CustomEvent with detail
+        const ce = e as CustomEvent<number>;
+        if (typeof ce.detail === 'number') {
+          setRecentCaffeineIntake(ce.detail);
+          return;
+        }
+      } catch (err) {
+        // fallthrough
+      }
+
+      try {
+        const v = localStorage.getItem('dailyCaffeine');
+        setRecentCaffeineIntake(v ? Number(v) : 0);
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    window.addEventListener('caffeineUpdate', handler as EventListener);
+
+    // also listen to storage events in case other windows change it
+    const storageHandler = (ev: StorageEvent) => {
+      if (ev.key === 'dailyCaffeine') {
+        setRecentCaffeineIntake(ev.newValue ? Number(ev.newValue) : 0);
+      }
+    };
+    window.addEventListener('storage', storageHandler);
+
+    return () => {
+      window.removeEventListener('caffeineUpdate', handler as EventListener);
+      window.removeEventListener('storage', storageHandler);
+    };
+  }, []);
 
   const calculateSleepDuration = () => {
     if (formData.bedTime && formData.wakeTime) {

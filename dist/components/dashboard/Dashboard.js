@@ -15,7 +15,7 @@ const Favorite_1 = __importDefault(require("@mui/icons-material/Favorite"));
 const Opacity_1 = __importDefault(require("@mui/icons-material/Opacity"));
 const HealthMetricCard_1 = __importDefault(require("./HealthMetricCard"));
 const PerformanceGraph_1 = __importDefault(require("./PerformanceGraph"));
-const Dashboard = () => {
+const Dashboard = ({ onNavigate }) => {
     const theme = (0, material_1.useTheme)();
     const [currentTime, setCurrentTime] = (0, react_1.useState)(new Date());
     const healthMetrics = [
@@ -68,7 +68,13 @@ const Dashboard = () => {
             day: 'numeric'
         });
     };
-    return ((0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { flexGrow: 1, p: 3 }, children: [(0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }, children: [(0, jsx_runtime_1.jsxs)(material_1.Box, { children: [(0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h3", gutterBottom: true, children: getTimeBasedGreeting() }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h6", color: "text.secondary", children: formatDate(currentTime) })] }), (0, jsx_runtime_1.jsx)(material_1.IconButton, { size: "large", color: "primary", children: (0, jsx_runtime_1.jsx)(Notifications_1.default, {}) })] }), (0, jsx_runtime_1.jsx)(material_1.Grid, { container: true, spacing: 3, sx: { mb: 4 }, children: healthMetrics.map((metric, index) => ((0, jsx_runtime_1.jsx)(material_1.Grid, { item: true, xs: 12, sm: 6, md: 3, children: (0, jsx_runtime_1.jsx)(HealthMetricCard_1.default, { title: metric.title, value: metric.value, unit: metric.unit }) }, index))) }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h5", gutterBottom: true, sx: { mb: 2 }, children: "Quick Actions" }), (0, jsx_runtime_1.jsx)(material_1.Grid, { container: true, spacing: 2, sx: { mb: 4 }, children: quickActions.map((action, index) => ((0, jsx_runtime_1.jsx)(material_1.Grid, { item: true, xs: 12, sm: 4, children: (0, jsx_runtime_1.jsx)(material_1.Card, { sx: {
+    return ((0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { flexGrow: 1, p: 3 }, children: [(0, jsx_runtime_1.jsxs)(material_1.Box, { sx: { mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }, children: [(0, jsx_runtime_1.jsxs)(material_1.Box, { children: [(0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h3", gutterBottom: true, children: getTimeBasedGreeting() }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h6", color: "text.secondary", children: formatDate(currentTime) })] }), (0, jsx_runtime_1.jsx)(material_1.IconButton, { size: "large", color: "primary", children: (0, jsx_runtime_1.jsx)(Notifications_1.default, {}) })] }), (0, jsx_runtime_1.jsx)(material_1.Grid, { container: true, spacing: 3, sx: { mb: 4 }, children: healthMetrics.map((metric, index) => ((0, jsx_runtime_1.jsx)(material_1.Grid, { item: true, xs: 12, sm: 6, md: 3, children: (0, jsx_runtime_1.jsx)(HealthMetricCard_1.default, { title: metric.title, value: metric.value, unit: metric.unit }) }, index))) }), (0, jsx_runtime_1.jsx)(material_1.Typography, { variant: "h5", gutterBottom: true, sx: { mb: 2 }, children: "Quick Actions" }), (0, jsx_runtime_1.jsx)(material_1.Grid, { container: true, spacing: 2, sx: { mb: 4 }, children: quickActions.map((action, index) => ((0, jsx_runtime_1.jsx)(material_1.Grid, { item: true, xs: 12, sm: 4, children: (0, jsx_runtime_1.jsx)(material_1.Card, { onClick: () => {
+                            // map the action.route to the app route names
+                            const route = action.route === 'progress' ? 'dashboard' : action.route;
+                            // call parent navigation callback if provided
+                            if (onNavigate)
+                                onNavigate(route);
+                        }, sx: {
                             cursor: 'pointer',
                             transition: '0.3s',
                             '&:hover': {

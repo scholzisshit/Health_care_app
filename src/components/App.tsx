@@ -96,7 +96,15 @@ const App: React.FC = () => {
       />
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
-        {renderContent()}
+        {/**
+         * When rendering Dashboard, pass a navigation callback so
+         * quick-action cards can request navigation.
+         */}
+        {activeComponent === 'dashboard' ? (
+          <Dashboard onNavigate={(r) => setActiveComponent(r)} />
+        ) : (
+          renderContent()
+        )}
       </Container>
     </ThemeProvider>
   );

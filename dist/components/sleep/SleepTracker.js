@@ -29,7 +29,50 @@ const SleepTracker = () => {
     const [showGoalSettings, setShowGoalSettings] = (0, react_1.useState)(false);
     const [error, setError] = (0, react_1.useState)('');
     // Sample caffeine data - In a real app, this would come from your CaffeineTracker
-    const [recentCaffeineIntake, setRecentCaffeineIntake] = (0, react_1.useState)(0);
+    const [recentCaffeineIntake, setRecentCaffeineIntake] = (0, react_1.useState)(() => {
+        try {
+            const v = localStorage.getItem('dailyCaffeine');
+            return v ? Number(v) : 0;
+        }
+        catch (err) {
+            return 0;
+        }
+    });
+    // Listen for updates dispatched by CaffeineTracker when it writes to localStorage
+    (0, react_1.useEffect)(() => {
+        const handler = (e) => {
+            try {
+                // event may be CustomEvent with detail
+                const ce = e;
+                if (typeof ce.detail === 'number') {
+                    setRecentCaffeineIntake(ce.detail);
+                    return;
+                }
+            }
+            catch (err) {
+                // fallthrough
+            }
+            try {
+                const v = localStorage.getItem('dailyCaffeine');
+                setRecentCaffeineIntake(v ? Number(v) : 0);
+            }
+            catch (err) {
+                // ignore
+            }
+        };
+        window.addEventListener('caffeineUpdate', handler);
+        // also listen to storage events in case other windows change it
+        const storageHandler = (ev) => {
+            if (ev.key === 'dailyCaffeine') {
+                setRecentCaffeineIntake(ev.newValue ? Number(ev.newValue) : 0);
+            }
+        };
+        window.addEventListener('storage', storageHandler);
+        return () => {
+            window.removeEventListener('caffeineUpdate', handler);
+            window.removeEventListener('storage', storageHandler);
+        };
+    }, []);
     const calculateSleepDuration = () => {
         if (formData.bedTime && formData.wakeTime) {
             const duration = (formData.wakeTime.getTime() - formData.bedTime.getTime()) / (1000 * 60 * 60);

@@ -25,7 +25,11 @@ import OpacityIcon from '@mui/icons-material/Opacity';
 import HealthMetricCard from './HealthMetricCard';
 import PerformanceGraph from './PerformanceGraph';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onNavigate?: (route: 'dashboard' | 'input' | 'ai' | 'caffeine' | 'sleep') => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const theme = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
   
@@ -121,8 +125,14 @@ const Dashboard: React.FC = () => {
       <Grid container spacing={2} sx={{ mb: 4 }}>
         {quickActions.map((action, index) => (
           <Grid item xs={12} sm={4} key={index}>
-            <Card 
-              sx={{ 
+            <Card
+              onClick={() => {
+                // map the action.route to the app route names
+                const route = action.route === 'progress' ? 'dashboard' : action.route;
+                // call parent navigation callback if provided
+                if (onNavigate) onNavigate(route as any);
+              }}
+              sx={{
                 cursor: 'pointer',
                 transition: '0.3s',
                 '&:hover': {
@@ -132,7 +142,7 @@ const Dashboard: React.FC = () => {
               }}
             >
               <CardContent sx={{ textAlign: 'center' }}>
-                <Box sx={{ 
+                <Box sx={{
                   backgroundColor: `${action.color}20`,
                   borderRadius: '50%',
                   width: 60,
