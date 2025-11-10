@@ -26,90 +26,37 @@ npm start
 3. Set your health goals and preferences
 4. Start tracking your health metrics
 
-### Daily Usage Tips
-- Log your sleep data consistently
-- Track caffeine intake throughout the day
-- Review AI recommendations regularly
-- Update goals as needed
+##Features
+###Dashboard
+Real-time metrics: steps, heart rate, sleep, water
+Interactive graphs and trends
+Quick actions for tracking
 
-## Features
+###Sleep Tracking
+Log sleep duration, quality, mood, notes
+AI-based wake-time and cycle analysis
+Sleep score, hygiene reminders, and advice
 
-### Dashboard
-- Real-time health metrics display
-  * Daily steps counter
-  * Heart rate monitoring
-  * Sleep duration tracking
-  * Water intake measurement
-- Interactive performance graphs
-- Weekly and monthly trend analysis
-- Quick action buttons for common tasks
+###Caffeine Tracking
+Track drinks or add custom ones
+Monitor daily/weekly intake
+Alerts for limits and correlation with sleep
 
-### Sleep Tracking System
-#### Sleep Monitoring
-- Daily sleep duration logging
-- Sleep quality rating (1-5 stars)
-- Mood tracking upon waking
-- Notes and observations
-- Automatic sleep cycle analysis
+###AI Insights
+Personalized recommendations
+Sleep and caffeine optimization
+Lifestyle tips and smart reminders
 
-#### Smart Sleep Features
-- AI-powered wake-up time suggestions
-- Sleep cycle optimization
-- Personalized improvement advice
-- Sleep hygiene reminders
-- Sleep score calculation based on:
-  * Duration (40%)
-  * Quality (30%)
-  * Consistency (20%)
-  * Caffeine impact (10%)
+###Data & Privacy
+Local SQLite database
+Secure, offline, private data
+Export options available
 
-### Caffeine Tracking System
-#### Drink Tracking
-- Predefined drinks with caffeine content:
-  * Espresso (64mg)
-  * Brewed Coffee (95mg)
-  * Cold Brew (200mg)
-  * Green Tea (28mg)
-  * Black Tea (47mg)
-  * Energy Drinks (80mg)
-  * Cola (34mg)
-- Custom drink creation
-- Personal recipe storage
+###Tech Stack
+Electron.js, React + TypeScript, Material-UI, SQLite, Recharts
 
-#### Analysis Tools
-- Daily intake monitoring
-- Weekly consumption patterns
-- Time-based distribution
-- Limit warnings
-- Detailed drink recipes
-- Sleep-caffeine correlation analysis
-
-### AI-Powered Health Insights
-- Personalized recommendations
-- Sleep optimization suggestions
-- Caffeine intake guidance
-- Lifestyle improvement tips
-- Smart alerts and reminders
-
-### Data & Privacy
-- Local SQLite database
-- Secure data handling
-- No cloud dependency
-- Private health data
-- Data export options
-
-## Technical Stack
-- Electron.js for cross-platform desktop app
-- React + TypeScript for robust UI
-- Material-UI for modern styling
-- SQLite for local data storage
-- Recharts for data visualization
-
-## System Requirements
-- Compatible with Windows/macOS/Linux
-- Minimal system resources
-- Offline functionality
-- Automatic updates
+###System Requirements
+Windows/macOS/Linux, low resources, offline ready, auto updates
 
 ## Important Note
 This application provides health insights and recommendations. It is not a substitute for professional medical advice. Always consult healthcare professionals for medical decisions.
